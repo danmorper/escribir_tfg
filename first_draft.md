@@ -18,7 +18,7 @@ This is a strong and groundbreaking statement with which I partially agree. Alth
 
 In this bachelor's thesis, we will use NLP to extract data from the Boletín Oficial del Estado, which is the official gazette of Spain. The number of pdfs published per month make incredibly difficult for an only person to keep up with all the information (see graph below). LLMs combined with a RAG system can very useful to retrieve information so it can enhance transparency and accessibility to information. What is more, [it is already being used in law firms](https://www.truelaw.ai/blog/legal-rag-vs-rag-a-technical-exploration-of-retrieval-systems)
 ![Number of PDFs published per Month with Moving Avarage](images/pdfs_month.png)
-
+Image in https://github.com/danmorper/NLP/blob/main/boe/xml.ipynb
 # What is the Boletín Oficial del Estado (BOE)?
 The Boletín Oficial del Estado (BOE) is the official gazette of Spain, functioning as a daily publication that serves as the official channel for disseminating legal norms, regulations, and other important official announcements from the government and other public bodies. The BOE is published every day and made available in both PDF and XML formats. This allows for easy access and verification of legal documents by citizens, organizations, and legal entities.
 
