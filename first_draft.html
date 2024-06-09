@@ -213,7 +213,15 @@ aside > *:last-child {
         
         </head>
         <body class="vscode-body vscode-light">
-            <h1 id="introduction">Introduction</h1>
+            <hr>
+<p>header-includes:</p>
+<ul>
+<li>\usepackage{amsmath}</li>
+<li>\usepackage{amsfonts}</li>
+<li>\usepackage{amssymb}</li>
+</ul>
+<hr>
+<h1 id="introduction">Introduction</h1>
 <p>Since the invention of the computer in 1945, we have needed to translate our thoughts into machine instructions. To solve a problem requiring a computer, we must first find the solution and then translate this solution into &quot;machine language.&quot; In order to overcome this difficulty, a wide range of programming languages have been developed in the last decade. Below, you can find a table with the different categories of programming languages along with some examples, classified subjectively into different levels of proximity to human language (Very Low, Low, Moderate, Moderate to High, High, Very High).</p>
 <table>
 <thead>
@@ -302,47 +310,27 @@ Image in <a href="https://github.com/danmorper/NLP/blob/main/boe/xml.ipynb">http
 |               |<span class="hljs-comment">-- urlHtm</span>
 |               |<span class="hljs-comment">-- urlXml</span>
 </code></pre>
-<ul>
-<li><strong>sumario</strong>
-<ul>
-<li><strong>meta</strong></li>
-<li><strong>pub</strong>: Publication identifier (e.g., &quot;BOE&quot;)</li>
-<li><strong>anno</strong>: Year of publication</li>
-<li><strong>fecha</strong>: Publication date in DD/MM/YYYY format</li>
-<li><strong>fechaInv</strong>: Inverted publication date in YYYY/MM/DD format</li>
-<li><strong>fechaAnt</strong>: Previous publication date</li>
-<li><strong>fechaAntAnt</strong>: Date before the previous publication</li>
-<li><strong>fechaSig</strong>: Next publication date</li>
-<li><strong>fechaPub</strong>: Human-readable publication date</li>
-<li><strong>pubDate</strong>: RFC 822 formatted publication date</li>
-<li><strong>diario</strong> (with attribute <code>nbo</code> for the issue number)
-<ul>
-<li><strong>sumario_nbo</strong> (with attribute <code>id</code> for summary identifier)
-<ul>
-<li><strong>urlPdf</strong>: URL to the PDF file</li>
-</ul>
-</li>
-<li><strong>seccion</strong> (with attributes <code>num</code> for section number and <code>nombre</code> for section name)
-<ul>
-<li><strong>departamento</strong> (with attributes <code>nombre</code> for department name and <code>etq</code> for department code)
-<ul>
-<li><strong>item</strong> (with attribute <code>id</code> for item identifier)
-<ul>
-<li><strong>titulo</strong>: Title of the item</li>
-<li><strong>urlPdf</strong>: URL to the item's PDF file (with attributes <code>szBytes</code>, <code>szKBytes</code>, and <code>numPag</code> for number of pages)</li>
-<li><strong>urlHtm</strong>: URL to the item's HTML version</li>
-<li><strong>urlXml</strong>: URL to the item's XML version</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+<!-- - **sumario**
+    - **meta**
+    - **pub**: Publication identifier (e.g., "BOE")
+    - **anno**: Year of publication
+    - **fecha**: Publication date in DD/MM/YYYY format
+    - **fechaInv**: Inverted publication date in YYYY/MM/DD format
+    - **fechaAnt**: Previous publication date
+    - **fechaAntAnt**: Date before the previous publication
+    - **fechaSig**: Next publication date
+    - **fechaPub**: Human-readable publication date
+    - **pubDate**: RFC 822 formatted publication date
+    - **diario** (with attribute `nbo` for the issue number)
+        - **sumario_nbo** (with attribute `id` for summary identifier)
+            - **urlPdf**: URL to the PDF file
+        - **seccion** (with attributes `num` for section number and `nombre` for section name)
+            - **departamento** (with attributes `nombre` for department name and `etq` for department code)
+                - **item** (with attribute `id` for item identifier)
+                    - **titulo**: Title of the item
+                    - **urlPdf**: URL to the item's PDF file (with attributes `szBytes`, `szKBytes`, and `numPag` for number of pages)
+                    - **urlHtm**: URL to the item's HTML version
+                    - **urlXml**: URL to the item's XML version -->
 <h1 id="principal-component-analysis-pca">Principal Component Analysis (PCA)</h1>
 <p>[
 X = \begin{pmatrix}

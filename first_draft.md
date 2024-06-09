@@ -3,6 +3,7 @@ header-includes:
   - \usepackage{amsmath}
   - \usepackage{amsfonts}
   - \usepackage{amssymb}
+  - \usepackage{enumitem}
 ---
 
 
@@ -86,8 +87,10 @@ Sumario
                     - **urlXml**: URL to the item's XML version
 
 # Principal Component Analysis (PCA)
+Principal Component Analysis (PCA) is a statistical technique used to reduce the dimensionality of a dataset while retaining most of its variability.
 
-\[ 
+Let $X$ be the sample matrix, where $x_1, \ldots, x_n$ are the samples.
+$$
 X = \begin{pmatrix} 
 x_{1.} \\ 
 \vdots \\ 
@@ -95,34 +98,34 @@ x_{n.}
 \end{pmatrix} 
 \quad \implies \quad 
 X \in \mathbb{R}^{n \times p} 
-\]
+$$
 
-Only assumption on $X$ is that its mean vector and covariance matrix exist.
+The only assumption on $X$ is that its mean vector and covariance matrix exist.
 
 Let $\delta = (\delta_1, \ldots, \delta_p)'$ be called the weighting vector. Then the weighted average is:
-\[ 
+$$
 \delta' X = \sum_{j=1}^{p} \delta_j X_j \quad \text{such that} \quad \sum_{j=1}^{p} \delta_j = 1 
-\]
+$$
 
 In order to properly choose $\delta$, we will maximize the variance:
-\[ 
+$$
 \max_{\delta \in M} \text{Var}(\delta' X) = \max_{\delta \in M} \delta' \text{Var}(X) \delta 
-\]
-\[ 
+$$
+$$
 M = \{\delta : \|\delta\| = 1\}
-\]
+$$
 
 We call $\Sigma = \text{Var}(X)$.
 
-\[ 
+$$
 \max_{\delta \in M} \delta' \Sigma \delta 
-\]
+$$
 
 This is a quadratic convex maximization problem with nonlinear constraints.
 
-\[ 
+$$
 \mathcal{L} (\delta, \lambda) = \delta' \Sigma \delta - \lambda (\delta' \delta - 1) 
-\]
+$$
 
 - $\nabla_{\delta} \mathcal{L} = 0 : \Sigma \delta = \lambda \delta$
 
@@ -132,22 +135,22 @@ This is a quadratic convex maximization problem with nonlinear constraints.
 
 
 Thus,
-\[ 
+$$
 \max_{\delta} \lambda \quad \text{subject to} \quad \Sigma \delta = \lambda \delta, \|\delta\| = 1 
-\]
+$$
 So we call $\delta$ the first principal component.
 
 Let $\delta^1, \ldots, \delta^j$ fit $j$ principal components. The $j+1$ principal component is the result of:
-\[ 
+$$
 \max \delta' \Sigma \delta 
-\]
+$$
 subject to
-\[ 
+$$
 \delta' \delta^i = 0 \quad \forall i \in \{1, \ldots, j\} 
-\]
-\[ 
+$$
+$$
 \delta' \delta = 1 
-\]
+$$
 
 The $j$-th principal component is an eigenvector associated to the $j$-th eigenvalue of $\Sigma$.
 ```python
@@ -245,3 +248,180 @@ The red arrows in the plot represent the eigenvectors scaled by the square roots
 **Sources:** 
 - 2015_Book_AppliedMultivariateStatistical.pdf
 - ADM_PCA.pdf
+
+# LLM fundamentals
+Following the comparation with programming languages,  when we write a script in a programming language like Python, we need to compile it to machine language for the computer to understand it. Similarly, in NLP, the process of compiling or translating natural language into a format that a machine can understand is called embedding.
+
+Embedding is the process of mapping natural language to vectors in a vector space. There are multiple models for creating embeddings, each with its own advantages and limitations.
+
+## One-Hot vectors
+One-Hot encoding is one of the simplest forms of word embedding. Let $N$ be the size of the dictionary we are using. In this model we map every word to a vector of dimension $N$ which is 0 in every component but one. 
+- Pro: Easy to construct
+- Con: It can not express similirity between words since the difference between words would always be 0 in all components but 1 and -1.
+
+Example: Let our dictionary to be $ \{\text{the}, \text{sky}, \text{is}, \text{blue}\}$, then $N = 4$
+$$
+\text{the} -> (1,0,0,0) \\
+\text{sky} -> (0,1,0,0) \\
+\text{is} -> (0,0,1,0) \\
+\text{blue} -> (0,0,0,1) \\
+$$
+
+## Word2Vec
+
+Word2Vec is a embedding that uses neural networks to generate vector representations of words, capturing their meanings based on context. Developed by Tomáš Mikolov and colleagues at Google in 2013, Word2Vec can utilize either of two model architectures: Continuous Bag of Words (CBOW) and Skip-gram.
+1. CBOW Model:
+    - Goal: Predict a target word from its context words.
+    - Architecture:
+        1. Input Layer: Context words surrounding the target word.
+        2. Hidden Layer: Embeds context words into a continuous vector space.
+        3. Output Layer: Predicts the target word.
+2. Skip-gram Model:
+    - Goal: Predict context words from a target word.
+    - Architecture: Similar neural network structure but works inversely to CBOW, using the current word to predict surrounding context words.
+        1. Input Layer: Target word.
+        2. Hidden Layer: Embeds the target word into a continuous vector space.
+        3. Output Layer: Predicts context words surrounding the target word.
+Word2Vec embeds each word individually, meaning it captures word meanings based on their context during training, but does not consider the surrounding words in real-time text sequences.
+
+### Playing around with Word2Vec
+In the [official presetation of Word2Vec](https://code.google.com/archive/p/word2vec/) and in [this wonderful video published by 3blue1brown](https://www.youtube.com/watch?v=wjZofJX0v4M&t=945s) a useful exercise is done to understand meaning can be understood in embeddings as direction of vectors.
+
+Let´s imagine we are given the words "man" and "woman". If we are asked what is the difference between them we would say it is, mainly, gender. If now we are given the word "son" and we are asked to find a new word that together with "son" represent also this meaning of gender, we would choose among all words we hav in our mind "daughter". 
+Now let´s try to make the same game with Word2Vec. Thanks to Google we have a dataset with 300-dimensional vectors for 3 million words and phrases. 
+
+**Analogy**
+A capital letter represets a word and if it has an arrow above it represents the vector of the word in a given embedding.
+Given three words: $A$, $B$, $C$ we can do $\vec{B} - \vec{A}$ to try to get the direction which represents some meaning, then we sum it to $\vec{C}$ and we find the closest word to the vector. So we try to find the closest word of $\vec{C} + \vec{B} - \vec{A}$, which we will called analogy.
+
+**Cosine similirity**
+
+First we must define a distance. In this case we will use cosine similarity.
+
+The cosine similarity between two vectors $\vec{A}$ and $\vec{B}$ is defined as:
+\begin{equation}
+\text{cosine similarity} = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\| \|\mathbf{B}\|}
+\end{equation}
+
+where $\vec{A} \cdot \vec{B}$ denotes the dot product of vectors $\vec{A}$ and $\vec{B}$, and $\|\vec{A}\|$ and $\|\vec{B}\|$ are the magnitudes (or Euclidean norms) of vectors $\vec{A}$ and $\vec{B}$, respectively.
+
+In python there is a built-in function in the package `sklearn`
+
+```python
+from sklearn.metrics.pairwise import cosine_similarity
+def get_analogy(word_a, word_b, word_c, embedding_function):
+    """Find the word d that completes the analogy: a is to b as c is to d."""
+    vec_a = np.array(embedding_function(word_a))
+    vec_b = np.array(embedding_function(word_b))
+    vec_c = np.array(embedding_function(word_c))
+
+    analogy_vector = vec_b - vec_a + vec_c
+
+    return analogy_vector
+
+def find_closest_word(analogy_vector, embedding_function, vocabulary):
+    """Find the word in the vocabulary whose embedding is closest to the analogy_vector."""
+    vocabulary_vectors = np.array([embedding_function(word) for word in vocabulary if word in word2vec_model])
+    similarities = cosine_similarity([analogy_vector], vocabulary_vectors)[0]
+    closest_word = vocabulary[np.argmax(similarities)]
+    
+    return closest_word
+```
+
+Now we use the functions
+```python
+# Example usage:
+vocabulary = list(word2vec_model.index_to_key)  # Using the model's vocabulary
+analogy_vector = get_analogy("man", "woman", "son", get_word2vec_embedding)
+closest_word = find_closest_word(analogy_vector, get_word2vec_embedding, vocabulary)
+print("The word completing the analogy is:", closest_word)
+```
+
+```text
+The word completing the analogy is: daughter
+```
+Now we will try to capture the meaning of the past in verbs
+```python
+analogy_vector = get_analogy('do', 'did', 'go', get_word2vec_embedding)
+closest_word = find_closest_word(analogy_vector, get_word2vec_embedding, vocabulary)
+print("The word completing the analogy is:", closest_word)
+```
+
+```text
+The word completing the analogy is: went
+```
+
+```python
+analogy_vector = get_analogy('Germany', 'Berlin', 'Spain', get_word2vec_embedding)
+closest_word = find_closest_word(analogy_vector, get_word2vec_embedding, vocabulary)
+print("The word completing the analogy is:", closest_word)
+```
+
+```text
+The word completing the analogy is: Madrid
+```
+
+This one has not been successful
+```python
+analogy_vector = get_analogy('Google', 'Gmail', 'Microsoft', get_word2vec_embedding)
+closest_word = find_closest_word(analogy_vector, get_word2vec_embedding, vocabulary)
+print("The word completing the analogy is:", closest_word)
+```
+
+```text
+The word completing the analogy is: Gmail
+```
+
+**A bit more mathematics**
+
+If D is an analogy of A, B, C, then
+$$
+\vec{D} \approx \vec{C} + \vec{B} - \vec{A}
+$$
+If the previous statement were exact we could express 
+$$ D = \left( \begin{array}{c} -1 \\ 1 \\ 1\end{array} \right)_{\{\vec{A},\vec{B},\vec{C}\}} $$
+
+$$
+D \in \langle A, B, C \rangle
+$$
+
+Let 
+$$
+E \in \langle A, B, C \rangle
+$$
+then
+$$
+E = \alpha A + \beta B + \gamma C
+$$
+
+$E$ is an analogy of $\forall A, B, C, \phi$ (where $\alpha = -1, \beta = 1, \gamma = 1$)
+
+$$
+\begin{aligned}
+e_1 &= \alpha a_1 + \beta b_1 + \gamma c_1 \\
+e_2 &= \alpha a_2 + \beta b_2 + \gamma c_2 \\
+e_3 &= \alpha a_3 + \beta b_3 + \gamma c_3
+\end{aligned}
+\implies
+E = \left( \begin{array}{ccc} A & B & C \end{array} \right)
+\left( \begin{array}{c} \alpha \\ \beta \\ \gamma \end{array} \right)
+$$
+
+Since analogy cannot be exact, we will define it as an analogy if:
+$$ d\left( \left( \begin{array}{c} \alpha \\ \beta \\ \gamma \end{array} \right), \left( \begin{array}{c} -1 \\ 1 \\ 1 \end{array} \right) \right) < \varepsilon $$
+
+
+### context matters 
+
+Consider the sentence: "I saw a man with a telescope.". It can have two different meanings: 
+
+1. I saw a man who was holding a telescope.
+2. I saw a man through a telescope.
+
+Embedding each word individually without considering its context in the sentence can miss these differences. Word2Vec, while powerful, cannot distinguish between these meanings if only individual words are embedded without considering broader sentence context.
+
+## Attention models
+Attention mechanisms, such as those used in transformers, represent a more advanced approach in NLP that can capture context more effectively than traditional embeddings. <span style="color:red">*Should I go into more detail about attention models like transformers?*</span>
+
+
+

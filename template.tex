@@ -1,0 +1,36 @@
+\documentclass{article}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{hyperref}
+\usepackage{fancyvrb}
+\usepackage{color}
+\usepackage{listings}
+
+% Ajustar la profundidad de las listas
+\usepackage{enumitem}
+\setlistdepth{10}
+\renewlist{itemize}{itemize}{10}
+\renewlist{enumerate}{enumerate}{10}
+
+% Configuraciones para gráficos y figuras
+\usepackage{float}
+\floatplacement{figure}{H}
+
+% Configuraciones para la tabla
+\usepackage{booktabs}
+\usepackage{array}
+\renewcommand{\arraystretch}{1.5}
+
+\begin{document}
+
+$if(title)$
+\title{$title$}
+\author{$author$}
+\date{$date$}
+\maketitle
+$endif$
+
+$body$
+
+\end{document}
