@@ -6,6 +6,19 @@ header-includes:
   - \usepackage{enumitem}
 ---
 
+# Table of Contents
+- [Table of Contents](#table-of-contents)
+- [Introduction](#introduction)
+  - [Data Extraction](#data-extraction)
+- [What is the BOE?](#what-is-the-boe)
+  - [Structure of BOE XML Files](#structure-of-boe-xml-files)
+- [Principal Component Analysis (PCA)](#principal-component-analysis-pca)
+- [LLM Fundamentals](#llm-fundamentals)
+  - [One-Hot Vectors](#one-hot-vectors)
+  - [Word2Vec](#word2vec)
+    - [Playing around with Word2Vec](#playing-around-with-word2vec)
+    - [Context Matters](#context-matters)
+  - [Attention Models](#attention-models)
 
 # Introduction
 
@@ -19,20 +32,19 @@ Since the invention of the computer in 1945, we have needed to translate our tho
 | Very High-Level Programming Languages | SQL, MATLAB  | Very High                   |
 | Scripting Languages             | JavaScript, PHP     | High                        |
 | Markup Languages                | HTML, XML           | Moderate to High            |
-| Natural Language Programming    | Inform 7            | Very High                   |
 
 ![first_computer](images/first_computer.png)  
 
-So, could a machine understand natural language? This is the purpose of a branch of Machine Learning known as Natural Language Processing (NLP). NLP aims to minimize, even eliminate, the friction between humans and computers. In words of the current Nvidia CEO Jensen Huang: "It is our job to create computing technology such that nobody has to program, and that the programming language is human. Everybody in the world is now a programmer. This is the miracle of Artificial Intelligence."
+So, could a machine understand natural language? This is the purpose of a branch of Machine Learning known as Natural Language Processing (NLP). NLP aims to minimize, even eliminate, the friction between humans and computers. [In words of the current Nvidia CEO Jensen Huang](https://www.youtube.com/watch?v=6Lcy2N3YcIs): "It is our job to create computing technology such that nobody has to program, and that the programming language is human. Everybody in the world is now a programmer. This is the miracle of Artificial Intelligence."
 This is a strong and groundbreaking statement with which I partially agree. Although I personally think that the role of Natural Language in this context might be overestimated. The programmer's purpose nowadays is not only to translate algorithms to machine language but also to actually come up with these algorithms and sometimes, natural language is not sufficient to express very complex ideas, which is why mathematics has its own language.
 
 ## Data Extraction
-One of the common tasks that it has gained relevance in the last decade is data extraction. In the time of Big Data, Data Analysis and Data Science extracting data from literally anywhere is crucial. NLP provides a new tool to extract data which requires some understanding of Human Language.
+One of the common tasks that has gained relevance in the last decade is data extraction. In the time of Big Data, Data Analysis and Data Science extracting data from literally anywhere is crucial. NLP provides a new tool to extract data which requires some understanding of Human Language.
 
 In this bachelor's thesis, we will use NLP to extract data from the Boletín Oficial del Estado, which is the official gazette of Spain. The number of pdfs published per month make incredibly difficult for an only person to keep up with all the information (see graph below). LLMs combined with a RAG system can very useful to retrieve information so it can enhance transparency and accessibility to information. What is more, [it is already being used in law firms](https://www.truelaw.ai/blog/legal-rag-vs-rag-a-technical-exploration-of-retrieval-systems)
 ![Number of PDFs published per Month with Moving Avarage](images/pdfs_month.png)
-Image in https://github.com/danmorper/NLP/blob/main/boe/xml.ipynb
-# What is the Boletín Oficial del Estado (BOE)?
+Image at the very end of https://github.com/danmorper/NLP/blob/main/boe/xml.ipynb
+# What is the BOE?
 The Boletín Oficial del Estado (BOE) is the official gazette of Spain, functioning as a daily publication that serves as the official channel for disseminating legal norms, regulations, and other important official announcements from the government and other public bodies. The BOE is published every day and made available in both PDF and XML formats. This allows for easy access and verification of legal documents by citizens, organizations, and legal entities.
 
 Here is a general schema of how BOE XML files are structured:
@@ -64,27 +76,25 @@ Sumario
 |               |-- urlXml
 ```
 
-- **sumario**
-    - **meta**
-    - **pub**: Publication identifier (e.g., "BOE")
-    - **anno**: Year of publication
-    - **fecha**: Publication date in DD/MM/YYYY format
-    - **fechaInv**: Inverted publication date in YYYY/MM/DD format
-    - **fechaAnt**: Previous publication date
-    - **fechaAntAnt**: Date before the previous publication
-    - **fechaSig**: Next publication date
-    - **fechaPub**: Human-readable publication date
-    - **pubDate**: RFC 822 formatted publication date
-    - **diario** (with attribute `nbo` for the issue number)
-        - **sumario_nbo** (with attribute `id` for summary identifier)
-            - **urlPdf**: URL to the PDF file
-        - **seccion** (with attributes `num` for section number and `nombre` for section name)
-            - **departamento** (with attributes `nombre` for department name and `etq` for department code)
-                - **item** (with attribute `id` for item identifier)
-                    - **titulo**: Title of the item
-                    - **urlPdf**: URL to the item's PDF file (with attributes `szBytes`, `szKBytes`, and `numPag` for number of pages)
-                    - **urlHtm**: URL to the item's HTML version
-                    - **urlXml**: URL to the item's XML version
+- **pub**: Publication identifier (e.g., "BOE")
+- **anno**: Year of publication
+- **fecha**: Publication date in DD/MM/YYYY format
+- **fechaInv**: Inverted publication date in YYYY/MM/DD format
+- **fechaAnt**: Previous publication date
+- **fechaAntAnt**: Date before the previous publication
+- **fechaSig**: Next publication date
+- **fechaPub**: Human-readable publication date
+- **pubDate**: RFC 822 formatted publication date
+- **diario** (with attribute `nbo` for the issue number)
+- **sumario_nbo** (with attribute `id` for summary identifier)
+- **urlPdf**: URL to the PDF file
+- **seccion** (with attributes `num` for section number and `nombre` for section name)
+- **departamento** (with attributes `nombre` for department name and `etq` for department code)
+- **item** (with attribute `id` for item identifier)
+- **titulo**: Title of the item
+- **urlPdf**: URL to the item's PDF file (with attributes `szBytes`, `szKBytes`, and `numPag` for number of pages)
+- **urlHtm**: URL to the item's HTML version
+- **urlXml**: URL to the item's XML version
 
 # Principal Component Analysis (PCA)
 Principal Component Analysis (PCA) is a statistical technique used to reduce the dimensionality of a dataset while retaining most of its variability.
@@ -249,12 +259,12 @@ The red arrows in the plot represent the eigenvectors scaled by the square roots
 - 2015_Book_AppliedMultivariateStatistical.pdf
 - ADM_PCA.pdf
 
-# LLM fundamentals
+# LLM Fundamentals
 Following the comparation with programming languages,  when we write a script in a programming language like Python, we need to compile it to machine language for the computer to understand it. Similarly, in NLP, the process of compiling or translating natural language into a format that a machine can understand is called embedding.
 
 Embedding is the process of mapping natural language to vectors in a vector space. There are multiple models for creating embeddings, each with its own advantages and limitations.
 
-## One-Hot vectors
+## One-Hot Vectors
 One-Hot encoding is one of the simplest forms of word embedding. Let $N$ be the size of the dictionary we are using. In this model we map every word to a vector of dimension $N$ which is 0 in every component but one. 
 - Pro: Easy to construct
 - Con: It can not express similirity between words since the difference between words would always be 0 in all components but 1 and -1.
@@ -268,7 +278,6 @@ $$
 $$
 
 ## Word2Vec
-
 Word2Vec is a embedding that uses neural networks to generate vector representations of words, capturing their meanings based on context. Developed by Tomáš Mikolov and colleagues at Google in 2013, Word2Vec can utilize either of two model architectures: Continuous Bag of Words (CBOW) and Skip-gram.
 1. CBOW Model:
     - Goal: Predict a target word from its context words.
@@ -411,7 +420,7 @@ Since analogy cannot be exact, we will define it as an analogy if:
 $$ d\left( \left( \begin{array}{c} \alpha \\ \beta \\ \gamma \end{array} \right), \left( \begin{array}{c} -1 \\ 1 \\ 1 \end{array} \right) \right) < \varepsilon $$
 
 
-### context matters 
+### Context Matters
 
 Consider the sentence: "I saw a man with a telescope.". It can have two different meanings: 
 
@@ -420,7 +429,7 @@ Consider the sentence: "I saw a man with a telescope.". It can have two differen
 
 Embedding each word individually without considering its context in the sentence can miss these differences. Word2Vec, while powerful, cannot distinguish between these meanings if only individual words are embedded without considering broader sentence context.
 
-## Attention models
+## Attention Models
 Attention mechanisms, such as those used in transformers, represent a more advanced approach in NLP that can capture context more effectively than traditional embeddings. <span style="color:red">*Should I go into more detail about attention models like transformers?*</span>
 
 
